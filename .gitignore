@@ -36,8 +36,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# images
+*.jpg
+
 # sqlite
 *.db
+*.db-shm
+*.db-wal
 
 # typescript
 *.tsbuildinfo

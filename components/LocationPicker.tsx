@@ -35,9 +35,11 @@ export default function LocationPicker({ label = "Location", value, locationType
           <circle cx="12" cy="9" r="2.5" strokeWidth="2" />
         </svg>
       </span>
-      <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged} options={options}>
-        <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={placeholder} className="flex-1" />
-      </Autocomplete>
+      <div className="flex-1">
+        <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged} options={options}>
+          <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={placeholder} className="w-full" />
+        </Autocomplete>
+      </div>
       <svg className="w-4 h-4 text-gray-400 ml-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
       </svg>
