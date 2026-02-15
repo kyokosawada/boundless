@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-gold: #C5A455;
+  --color-gold-light: #D4B96B;
+  --color-gold-dark: #B08D3E;
+  --color-navy: #1E2A4A;
+  --color-navy-light: #2D3E66;
+  --font-serif: Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-800 antialiased;
+  }
+}
+
+@layer components {
+  .floating-input {
+    @apply relative border border-gray-300 rounded-md px-3 pt-4 pb-2 text-sm
+           focus-within:border-gold focus-within:ring-1 focus-within:ring-gold
+           transition-colors;
+  }
+  .floating-input label {
+    @apply absolute -top-2.5 left-2 bg-white px-1 text-xs text-gray-500;
+  }
+  .floating-input input,
+  .floating-input select {
+    @apply w-full outline-none bg-transparent text-gray-800;
+  }
+  .floating-input .icon {
+    @apply text-gold mr-2 flex-shrink-0;
+  }
+}
+
+.PhoneInput {
+  @apply border border-gray-300 rounded-md px-3 py-3 focus-within:border-gold focus-within:ring-1 focus-within:ring-gold transition-colors;
+}
+.PhoneInputInput {
+  @apply outline-none bg-transparent text-sm;
+}
+.PhoneInputCountry {
+  @apply mr-2 pr-2 border-r border-gray-300;
+}
