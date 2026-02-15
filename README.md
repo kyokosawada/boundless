@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ExampleIQ Booking Form
 
-## Getting Started
+A full-stack booking form for airport transportation and limousine services, built with Next.js 14, featuring Google Maps integration, phone-based customer recognition, and SQLite persistence.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Service type toggle** — One-way transfer or hourly booking
+- **Google Places Autocomplete** — Location and airport search for pickup, stops, and drop-off
+- **Distance & duration estimation** — Google Distance Matrix API integration
+- **Phone-based customer lookup** — Returning customers are recognized automatically
+- **New customer registration** — Collects first name, last name, and email for new phone numbers
+- **Form validation** — Client-side validation with inline error messages
+- **SQLite persistence** — Bookings and customers stored locally via better-sqlite3
+
+## Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Database:** SQLite via better-sqlite3
+- **Maps:** Google Maps JavaScript API (@react-google-maps/api)
+- **Phone Input:** react-phone-number-input + libphonenumber-js
+
+## Setup
+
+1. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+2. **Configure environment variables:**
+
+   Create a `.env.local` file in the project root:
+
+   ```
+   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+   ```
+
+   You need a Google Maps API key with the following APIs enabled:
+   - Maps JavaScript API
+   - Places API
+   - Distance Matrix API
+
+3. **Run the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## API Endpoints
+
+### `GET /api/customers/lookup?phone=<phone>`
+
+Looks up a customer by phone number. Returns `{ found: true, firstName }` or `{ found: false }`.
+
+### `POST /api/bookings`
+
+Submits a new booking. Creates the customer record if not found. Request body includes service type, pickup/dropoff details, stops, passenger count, phone, and optional contact info for new customers. Returns `{ success: true, bookingId, customerName }`.
+
+### `POST /api/distance`
+
+Calculates distance and travel time between two addresses using the Google Distance Matrix API. Request body: `{ origin, destination }`. Returns `{ distance, duration }`.
+
+## Project Structure
+
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+app/
+  page.tsx                  — Main page with header and booking form
+  layout.tsx                — Root layout with metadata
+  globals.css               — Tailwind base + floating input styles
+  api/
+    bookings/route.ts       — Booking submission endpoint
+    customers/lookup/route.ts — Customer phone lookup endpoint
+    distance/route.ts       — Distance calculation endpoint
+components/
+  BookingForm.tsx            — Main form orchestrator (state, validation, submission)
+  ServiceToggle.tsx          — One-way / Hourly toggle
+  LocationTypeToggle.tsx     — Location / Airport toggle
+  DateTimePicker.tsx         — Date and time inputs
+  LocationPicker.tsx         — Google Places Autocomplete input
+  PassengerCount.tsx         — Passenger number input
+  PhoneField.tsx             — International phone input with lookup
+  ContactInfo.tsx            — New customer contact fields
+  GoogleMapsProvider.tsx     — Google Maps script loader
+lib/
+  db.ts                      — SQLite database initialization
+  validation.ts              — Form validation logic
+```
